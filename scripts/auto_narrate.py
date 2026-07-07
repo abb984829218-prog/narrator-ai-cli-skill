@@ -1,18 +1,28 @@
-from openai import OpenAI
+import os
 import asyncio
 import edge_tts
 import subprocess
+import dashscope
+from dashscope import Generation
 
-# 初始化客户端
-client = OpenAI()
+# 读取阿里云密钥
+dashscope.api_key = os.getenv("ALI_ACCESS_KEY_SECRET")
+
+# AI生成文案函数
+def create_script(prompt):
+    response = Generation.call(
+        model="qwen-turbo",
+        prompt=prompt,
+        result_format="message"
+    )
+    if response.status_code == 200:
+        return response.output.choices[0].message.content
+    else:
+        return f"生成失败：{response.message}"
 
 # 1. AI生成电影解说文案
 prompt = "为这部电影写一段150字左右的影视解说文案，节奏紧凑，适合短视频配音"
-resp = client.chat.completions.create(
-    model="gpt-3.5-turbo",
-    messages=[{"role": "user", "content": prompt}]
-)
-text = resp.choices[0].message.content
+text = create_script(prompt)
 
 # 2. 文字转语音
 voice = "zh-CN-YunyangNeural"

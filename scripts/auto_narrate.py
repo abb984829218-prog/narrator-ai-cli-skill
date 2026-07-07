@@ -24,12 +24,13 @@ def create_script(prompt):
 prompt = "为这部电影写一段150字左右的影视解说文案，节奏紧凑，适合短视频配音"
 text = create_script(prompt)
 
-# 2. 文字转语音
+# 2. 文字转语音（修复edge-tts保存方法）
 voice = "zh-CN-YunyangNeural"
 communicate = edge_tts.Communicate(text, voice)
 
 async def tts_task():
-    await communicate.save_to_file("audio.mp3")
+    # 把 save_to_file 改成 save_sync
+    await communicate.save_sync("audio.mp3")
 
 asyncio.run(tts_task())
 

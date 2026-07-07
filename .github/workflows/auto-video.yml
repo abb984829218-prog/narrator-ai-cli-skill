@@ -22,5 +22,5 @@ jobs:
 
       - name: 执行全自动脚本
         env:
-          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          OPENAI_API_KEY: ${{secrets.OPENAI_API_KEY}}
         run: python scripts/auto_narrate.py

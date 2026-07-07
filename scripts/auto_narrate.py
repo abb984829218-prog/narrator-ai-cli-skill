@@ -24,15 +24,12 @@ def create_script(prompt):
 prompt = "为这部电影写一段150字左右的影视解说文案，节奏紧凑，适合短视频配音"
 text = create_script(prompt)
 
-# 2. 文字转语音（修复edge-tts保存方法）
+# 2. 文字转语音
 voice = "zh-CN-YunyangNeural"
 communicate = edge_tts.Communicate(text, voice)
 
-async def tts_task():
-    # 把 save_to_file 改成 save_sync
-    await communicate.save_sync("audio.mp3")
-
-asyncio.run(tts_task())
+# save_sync 是同步方法，不用 async/await，直接调用
+communicate.save_sync("audio.mp3")
 
 # 3. FFmpeg把视频和音频合并
 cmd = [

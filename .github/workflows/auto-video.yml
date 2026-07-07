@@ -1,26 +1,28 @@
-name: 自动生成电影解说视频
+name：自动生成电影解说视频
 on:
   workflow_dispatch:
 jobs:
   run-task:
     runs-on: ubuntu-latest
     steps:
-      - name: 拉取仓库代码
+      - name：拉取仓库代码
         uses: actions/checkout@v4
 
-      - name: 安装Python环境
+      - name：安装Python环境
         uses: actions/setup-python@v5
         with:
           python-version: "3.11"
 
-      - name: 安装FFmpeg（视频剪辑必备）
+      - name：安装FFmpeg（视频剪辑必备）
         uses: FedericoCarboni/setup-ffmpeg@v3
 
-      - name: 安装依赖包
+      - name：安装依赖包
         run: |
-          pip install openai edge-tts
+          pip install openai edge-ts dashscope
 
-      - name: 执行全自动脚本
+      - name：执行全自动脚本
         env:
-          OPENAI_API_KEY: ${{secrets.OPENAI_API_KEY}}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          ALI_ACCESS_KEY_ID: ${{ secrets.ALI_ACCESS_KEY_ID }}
+          ALI_ACCESS_KEY_SECRET: ${{ secrets.ALI_ACCESS_KEY_SECRET }}
         run: python scripts/auto_narrate.py

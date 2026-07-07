@@ -17,7 +17,7 @@ text = resp.choices[0].message.content
 # 2. 文字转语音
 voice = "zh-CN-YunyangNeural"
 communicate = edge_tts.Communicate(text, voice)
-asyncio.run(communicate.save_sync("audio.mp3"))
+asyncio.run(communicate.save_to_file("audio.mp3"))
 
 # 3. FFmpeg把视频和音频合并
 cmd = [
